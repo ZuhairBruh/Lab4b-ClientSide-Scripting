@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Books JSON Data</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        ul { line-height: 1.6; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Book Information</h1>
+
+    <h3>(a) Title of the first book:</h3>
+    <p id="firstBookTitle">Loading...</p>
+
+    <h3>(b) Author of the second book:</h3>
+    <p id="secondBookAuthor">Loading...</p>
+
+    <h3>(c) Genres grouped by book title:</h3>
+    <ul id="genreList"></ul>
+
+    <p id="errorMessage" class="error"></p>
+
+    <script>
+        
+        fetch('books.json')
+            .then(function(response) {
+                
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                
+                return response.json();
+            })
+            .then(function(data) {
+                
+                const booksArray = data.books;
+
+                // (a) Title of the first book
+                document.getElementById("firstBookTitle").textContent = booksArray[0].title;
+
+                // (b) Author of the second book
+                document.getElementById("secondBookAuthor").textContent = booksArray[1].author;
+
+                // (c) Genres of both books
+                const listContainer = document.getElementById("genreList");
+          
+                for (let book of booksArray) {
+                    let listItem = document.createElement("li");
+                    
+                    let genresString = book.genres.join(", ");
+                    
+                    listItem.textContent = book.title + " — " + genresString;
+                    
+                    listContainer.appendChild(listItem);
+                }
+            })
+            .catch(function(error) {
+                // Display user-friendly error message
+                console.error('Fetch error:', error);
+                document.getElementById("errorMessage").textContent = "Sorry, there was an error loading the book data.";
+            });
+    </script>
+</body>
+</html>
