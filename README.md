@@ -1,4 +1,4 @@
-# Lab 4b — Client-Side Scripting (JSON and jQuery)
+# Lab 4b - Client-Side Scripting (JSON and jQuery)
 
 ## Files
 - books.json — two-book dataset (title, author, publicationYear, genres)
